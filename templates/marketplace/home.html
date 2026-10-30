@@ -1,0 +1,336 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <div class="hero-section">
+
+        <div class="row align-items-center">
+
+            <!-- Left Side -->
+
+            <div class="col-lg-6">
+
+                {% if user.is_authenticated %}
+
+                <h1 class="display-3 fw-bold">
+
+                    Welcome, {{ user.first_name|default:user.username }} 👋
+
+                </h1>
+
+                {% else %}
+
+                <h1 class="display-3 fw-bold">
+
+                    Hire Top Freelancers
+
+                </h1>
+
+                {% endif %}
+
+                <p class="lead mt-4">
+
+                    Connect with skilled freelancers, post projects,
+                    receive competitive bids, and collaborate with talented
+                    professionals from around the world.
+
+                </p>
+
+                <div class="mt-4">
+
+                    <a href="{% url 'project_list' %}"
+                       class="btn btn-primary btn-lg me-2 mb-2">
+
+                        Browse Projects
+
+                    </a>
+
+                    <a href="{% url 'freelancer_list' %}"
+                       class="btn btn-outline-primary btn-lg me-2 mb-2">
+
+                        Hire Freelancer
+
+                    </a>
+
+                    {% if user.is_authenticated %}
+
+                    <a href="{% url 'dashboard' %}"
+                       class="btn btn-dark btn-lg mb-2">
+
+                        Go to Dashboard
+
+                    </a>
+
+                    {% else %}
+
+                    <a href="{% url 'register' %}"
+                       class="btn btn-success btn-lg mb-2">
+
+                        Join Now
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Right Side -->
+
+            <div class="col-lg-6 text-center">
+
+                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900"
+                     class="img-fluid rounded shadow-lg"
+                     alt="Freelancer Marketplace">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="row text-center mt-5">
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body">
+
+                    <i class="bi bi-people-fill display-4 text-primary"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_users }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Registered Users
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body">
+
+                    <i class="bi bi-person-workspace display-4 text-success"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_freelancers }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Freelancers
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body">
+
+                    <i class="bi bi-folder-fill display-4 text-warning"></i>
+
+                    <h2 class="mt-3">
+
+                        {{ total_projects }}
+
+                    </h2>
+
+                    <p class="text-muted">
+
+                        Projects Posted
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ================= FEATURED FREELANCERS ================= -->
+
+    <hr class="my-5">
+
+    <h2 class="text-center mb-5">
+
+        ⭐ Featured Freelancers
+
+    </h2>
+
+    <div class="row">
+
+        {% for freelancer in featured_freelancers %}
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body text-center">
+
+                    {% if freelancer.photo %}
+
+                    <img src="{{ freelancer.photo.url }}"
+                         class="rounded-circle mb-3"
+                         width="120"
+                         height="120">
+
+                    {% endif %}
+
+                    <h4>{{ freelancer.name }}</h4>
+
+                    <p class="text-muted">
+
+                        {{ freelancer.skills }}
+
+                    </p>
+
+                    <h5 class="text-success">
+
+                        ₹{{ freelancer.hourly_rate }}/hour
+
+                    </h5>
+
+                    <a href="{% url 'freelancer_profile_detail' freelancer.id %}"
+                       class="btn btn-outline-primary">
+
+                        View Profile
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+
+                No freelancers available.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- ================= LATEST PROJECTS ================= -->
+
+    <hr class="my-5">
+
+    <h2 class="text-center mb-5">
+
+        📁 Latest Projects
+
+    </h2>
+
+    <div class="row">
+
+        {% for project in latest_projects %}
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card h-100">
+
+                <div class="card-body">
+
+                    <h4>{{ project.title }}</h4>
+
+                    <p class="text-muted">
+
+                        {{ project.description|truncatewords:20 }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Budget:</strong>
+
+                        ₹{{ project.budget }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Status:</strong>
+
+                        <span class="badge bg-success">
+
+                            {{ project.status }}
+
+                        </span>
+
+                    </p>
+
+                    <a href="{% url 'project_detail' project.id %}"
+                       class="btn btn-primary">
+
+                        View Details
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+
+                No projects available.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

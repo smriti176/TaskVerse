@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+{% block title %}
+Freelancer Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="card profile-card">
+
+<div class="card-body p-5">
+
+<!-- ================= HEADER ================= -->
+
+<div class="text-center">
+
+    {% if freelancer.photo %}
+
+    <img src="{{ freelancer.photo.url }}"
+         class="profile-avatar mb-4"
+         alt="Profile Photo">
+
+    {% endif %}
+
+    <h2 class="fw-bold mb-2">
+
+        {{ freelancer.name }}
+
+    </h2>
+
+    <p class="text-muted fs-5">
+
+        Python • Django • Freelancer
+
+    </p>
+
+    <div class="row justify-content-center mt-4">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="stats-card stats-blue">
+
+                <div class="text-center w-100">
+
+                    <i class="bi bi-star-fill stats-icon"></i>
+
+                    <h2>
+
+                        {% if average_rating %}
+                            {{ average_rating|floatformat:1 }}
+                        {% else %}
+                            0.0
+                        {% endif %}
+
+                    </h2>
+
+                    <h6>Rating</h6>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="stats-card stats-green">
+
+                <div class="text-center w-100">
+
+                    <i class="bi bi-briefcase-fill stats-icon"></i>
+
+                    <h2>
+
+                        {{ freelancer.experience }}
+
+                    </h2>
+
+                    <h6>Years Experience</h6>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="stats-card stats-orange">
+
+                <div class="text-center w-100">
+
+                    <i class="bi bi-currency-rupee stats-icon"></i>
+
+                    <h2>
+
+                        {{ freelancer.hourly_rate }}
+
+                    </h2>
+
+                    <h6>Per Hour</h6>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<hr class="my-5">
+
+<!-- ================= PROFILE INFORMATION ================= -->
+
+<h3 class="mb-4">
+
+    <i class="bi bi-person-circle"></i>
+
+    Personal Information
+
+</h3>
+
+<table class="table profile-table">
+
+<tbody>
+
+<tr>
+
+<th>Username</th>
+
+<td>{{ freelancer.user.username }}</td>
+
+</tr>
+
+<tr>
+
+<th>Name</th>
+
+<td>{{ freelancer.name }}</td>
+
+</tr>
+
+<tr>
+
+<th>Experience</th>
+
+<td>{{ freelancer.experience }} Years</td>
+
+</tr>
+
+<tr>
+
+<th>Hourly Rate</th>
+
+<td>₹{{ freelancer.hourly_rate }}/hour</td>
+
+</tr>
+
+<tr>
+
+<th>Portfolio</th>
+
+<td>
+
+{% if freelancer.portfolio %}
+
+<a href="{{ freelancer.portfolio }}"
+   target="_blank"
+   class="btn btn-outline-primary btn-sm">
+
+<i class="bi bi-globe"></i>
+
+Visit Portfolio
+
+</a>
+
+{% else %}
+
+<span class="text-muted">
+
+Not Added
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<!-- ================= SKILLS ================= -->
+
+<h3 class="mt-5 mb-3">
+
+<i class="bi bi-tools"></i>
+
+Skills
+
+</h3>
+
+<div class="mb-4">
+
+{% for skill in freelancer.skills.split %}
+
+<span class="badge bg-primary p-3 me-2 mb-2">
+
+{{ skill }}
+
+</span>
+
+{% endfor %}
+
+</div>
+
+<!-- ================= ABOUT ================= -->
+
+<h3 class="mb-3">
+
+<i class="bi bi-file-text"></i>
+
+About Me
+
+</h3>
+
+<div class="card mb-5">
+
+<div class="card-body">
+
+{{ freelancer.bio }}
+
+</div>
+
+</div>
+
+<!-- ================= REVIEWS ================= -->
+
+<h3 class="mb-4">
+
+<i class="bi bi-chat-dots"></i>
+
+Client Reviews
+
+</h3>
+
+{% for review in reviews %}
+
+<div class="review-card mb-3">
+
+<div class="d-flex justify-content-between">
+
+<h5>
+
+⭐ {{ review.rating }}/5
+
+</h5>
+
+<small>
+
+{{ review.created_at|date:"d M Y" }}
+
+</small>
+
+</div>
+
+<p class="mt-3">
+
+{{ review.comment }}
+
+</p>
+
+<small>
+
+Reviewed by
+
+<strong>
+
+{{ review.client.username }}
+
+</strong>
+
+</small>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-info text-center">
+
+No reviews available.
+
+</div>
+
+{% endfor %}
+
+<!-- ================= ACTION BUTTONS ================= -->
+
+<div class="profile-actions text-center mt-5">
+
+{% if user == freelancer.user %}
+
+<a href="{% url 'freelancer_profile' %}"
+   class="btn btn-primary">
+
+<i class="bi bi-pencil-square"></i>
+
+Edit Profile
+
+</a>
+
+{% endif %}
+
+<a href="{% url 'dashboard' %}"
+   class="btn btn-success">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</a>
+
+<a href="{% url 'project_list' %}"
+   class="btn btn-warning">
+
+<i class="bi bi-folder2-open"></i>
+
+Browse Projects
+
+</a>
+
+<a href="{% url 'freelancer_list' %}"
+   class="btn btn-outline-light">
+
+<i class="bi bi-arrow-left"></i>
+
+Back
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

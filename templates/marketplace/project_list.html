@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}
+Projects
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2>Available Projects</h2>
+
+    <hr>
+
+    <!-- Search Form -->
+
+    <form method="GET" class="mb-4">
+
+        <div class="input-group">
+
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Search projects by title, skills or category..."
+                value="{{ query|default:'' }}">
+
+            <button
+                class="btn btn-primary"
+                type="submit">
+
+                <i class="bi bi-search"></i>
+                Search
+
+            </button>
+
+        </div>
+
+    </form>
+
+    <!-- Projects List -->
+
+    {% for project in page_obj %}
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h3>
+
+                <a href="{% url 'project_detail' project.id %}">
+                    {{ project.title }}
+                </a>
+
+            </h3>
+
+            <p>{{ project.description }}</p>
+
+            <p>
+
+                <strong>Budget:</strong>
+                ₹{{ project.budget }}
+
+            </p>
+
+            <p>
+
+                <strong>Skills:</strong>
+                {{ project.skills_required }}
+
+            </p>
+
+            <p>
+
+                <strong>Category:</strong>
+                {{ project.category }}
+
+            </p>
+
+            <p>
+
+                <strong>Deadline:</strong>
+                {{ project.deadline }}
+
+            </p>
+
+            <a href="{% url 'project_detail' project.id %}"
+               class="btn btn-primary">
+
+                View Details
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="alert alert-warning text-center">
+
+        <h5>No Projects Found</h5>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- Pagination -->
+
+{% if page_obj.paginator.num_pages > 1 %}
+
+<nav aria-label="Project Pagination">
+
+    <ul class="pagination justify-content-center mt-4">
+
+        {% if page_obj.has_previous %}
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page=1{% if query %}&q={{ query }}{% endif %}">
+
+                First
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">
+
+                Previous
+
+            </a>
+
+        </li>
+
+        {% endif %}
+
+        <li class="page-item active">
+
+            <span class="page-link">
+
+                Page {{ page_obj.number }}
+                of
+                {{ page_obj.paginator.num_pages }}
+
+            </span>
+
+        </li>
+
+        {% if page_obj.has_next %}
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">
+
+                Next
+
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a class="page-link"
+               href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">
+
+                Last
+
+            </a>
+
+        </li>
+
+        {% endif %}
+
+    </ul>
+
+</nav>
+
+{% endif %}
+
+{% endblock %}

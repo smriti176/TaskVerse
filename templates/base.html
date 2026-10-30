@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}TaskVerse{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet"
+          href="{% static 'marketplace/style.css' %}">
+
+    <!-- Add this line -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+</head>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold"
+           href="{% url 'home' %}">
+            TaskVerse
+        </a>
+
+        <!-- Navigation -->
+        <div class="navbar-nav ms-4">
+
+            <a class="nav-link text-white"
+               href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a class="nav-link text-white"
+               href="{% url 'project_list' %}">
+                Projects
+            </a>
+
+            <a class="nav-link text-white"
+               href="{% url 'freelancer_list' %}">
+                Freelancers
+            </a>
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="ms-auto d-flex align-items-center">
+
+        {% if user.is_authenticated %}
+
+            <!-- Notification -->
+            <a href="{% url 'notifications' %}"
+               class="text-white me-3 fs-5 text-decoration-none">
+                <i class="bi bi-bell-fill"></i>
+            </a>
+
+            <!-- User Dropdown -->
+            <div class="dropdown">
+
+                <button
+                    class="btn btn-outline-light dropdown-toggle"
+                    data-bs-toggle="dropdown">
+
+                    {{ user.username }}
+
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li>
+                        <a class="dropdown-item"
+                           href="{% url 'dashboard' %}">
+                            🏠 Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           href="{% url 'freelancer_profile' %}">
+                            👤 My Profile
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           href="{% url 'account_settings' %}">
+                            ⚙ Account Settings
+                        </a>
+                    </li>
+
+                    {% if user.is_superuser %}
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           href="{% url 'admin_dashboard' %}">
+                            📊 Admin Dashboard
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item"
+                           href="/admin/">
+                            ⚙ Django Admin
+                        </a>
+                    </li>
+
+                    {% endif %}
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                        <a class="dropdown-item text-danger"
+                           href="{% url 'logout' %}">
+                            🚪 Logout
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        {% else %}
+
+            <a href="{% url 'login' %}"
+               class="btn btn-outline-light me-2">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}"
+               class="btn btn-warning">
+                Register
+            </a>
+
+        {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= MESSAGES ================= -->
+
+<div class="container mt-3">
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-success alert-dismissible fade show">
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+                </button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+</div>
+
+<!-- ================= PAGE CONTENT ================= -->
+
+<div class="container mt-4">
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+
+    © 2026 TaskVerse | By Nikhil
+
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

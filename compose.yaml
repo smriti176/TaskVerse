@@ -1,0 +1,14 @@
+
+
+services:
+  web:
+    build: .
+    container_name: freelancer-marketplace
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./db.sqlite3:/data/db.sqlite3
+      - ./media:/app/media
+    environment:
+      SQLITE_PATH: /data/db.sqlite3
+    restart: unless-stopped

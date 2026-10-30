@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card profile-card">
+
+        <div class="card-body p-5">
+
+            <!-- ================= HEADER ================= -->
+
+            <div class="text-center">
+
+                {% if profile.photo %}
+
+                <img src="{{ profile.photo.url }}"
+                     class="profile-avatar mb-4"
+                     alt="Profile Photo">
+
+                {% else %}
+
+                <img src="https://via.placeholder.com/180"
+                     class="profile-avatar mb-4"
+                     alt="Profile Photo">
+
+                {% endif %}
+
+                <h2 class="fw-bold">
+
+                    {{ profile.name }}
+
+                </h2>
+
+                <p class="text-muted fs-5">
+
+                    Python • Django • Freelancer
+
+                </p>
+
+            </div>
+
+            <hr class="my-5">
+
+            <!-- ================= QUICK STATS ================= -->
+
+            <div class="row mb-5">
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="stats-card stats-blue">
+
+                        <div class="text-center w-100">
+
+                            <i class="bi bi-briefcase-fill stats-icon"></i>
+
+                            <h2>
+
+                                {{ profile.experience }}
+
+                            </h2>
+
+                            <h6>Years Experience</h6>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="stats-card stats-green">
+
+                        <div class="text-center w-100">
+
+                            <i class="bi bi-currency-rupee stats-icon"></i>
+
+                            <h2>
+
+                                ₹{{ profile.hourly_rate }}
+
+                            </h2>
+
+                            <h6>Hourly Rate</h6>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <div class="stats-card stats-orange">
+
+                        <div class="text-center w-100">
+
+                            <i class="bi bi-person-check-fill stats-icon"></i>
+
+                            <h2>
+
+                                Active
+
+                            </h2>
+
+                            <h6>Status</h6>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ================= PROFILE INFORMATION ================= -->
+
+            <h3 class="mb-4">
+
+                <i class="bi bi-person-circle"></i>
+
+                Personal Information
+
+            </h3>
+
+            <table class="table profile-table">
+
+                <tbody>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <td>{{ profile.name }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Username</th>
+
+                        <td>{{ profile.user.username }}</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Experience</th>
+
+                        <td>{{ profile.experience }} Years</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Hourly Rate</th>
+
+                        <td>
+
+                            ₹{{ profile.hourly_rate }}/hour
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Portfolio</th>
+
+                        <td>
+
+                            {% if profile.portfolio %}
+
+                            <a href="{{ profile.portfolio }}"
+                               target="_blank"
+                               class="btn btn-outline-primary btn-sm">
+
+                                <i class="bi bi-globe"></i>
+
+                                Visit Portfolio
+
+                            </a>
+
+                            {% else %}
+
+                            <span class="text-muted">
+
+                                Portfolio not added
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <!-- ================= SKILLS ================= -->
+
+            <h3 class="mt-5 mb-3">
+
+                <i class="bi bi-tools"></i>
+
+                Skills
+
+            </h3>
+
+            <div class="mb-5">
+
+                {% for skill in profile.skills.split %}
+
+                <span class="badge bg-primary fs-6 me-2 mb-2 px-3 py-2">
+
+                    {{ skill }}
+
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- ================= ABOUT ================= -->
+
+            <h3 class="mb-3">
+
+                <i class="bi bi-file-earmark-person"></i>
+
+                About Me
+
+            </h3>
+
+            <div class="card mb-5">
+
+                <div class="card-body">
+
+                    <p class="mb-0">
+
+                        {{ profile.bio }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- ================= ACTION BUTTONS ================= -->
+
+            <div class="text-center mt-5">
+
+                <a href="{% url 'profile' %}"
+                   class="btn btn-primary btn-lg me-2">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                    Edit Profile
+
+                </a>
+
+                <a href="{% url 'dashboard' %}"
+                   class="btn btn-success btn-lg me-2">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Dashboard
+
+                </a>
+
+                <a href="{% url 'project_list' %}"
+                   class="btn btn-warning btn-lg me-2">
+
+                    <i class="bi bi-folder2-open"></i>
+
+                    Browse Projects
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

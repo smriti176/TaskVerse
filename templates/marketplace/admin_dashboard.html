@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        Admin Dashboard
+    </h2>
+
+    <div class="row">
+
+        <!-- Total Users -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body text-center">
+
+                    <h5>Total Users</h5>
+
+                    <h1>{{ users }}</h1>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Projects -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body text-center">
+
+                    <h5>Total Projects</h5>
+
+                    <h1>{{ projects }}</h1>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Bids -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white shadow">
+                <div class="card-body text-center">
+
+                    <h5>Total Bids</h5>
+
+                    <h1>{{ bids }}</h1>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Projects -->
+        <div class="col-md-6 mb-4">
+            <div class="card bg-warning shadow">
+                <div class="card-body text-center">
+
+                    <h5>Open Projects</h5>
+
+                    <h1>{{ open_projects }}</h1>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Closed Projects -->
+        <div class="col-md-6 mb-4">
+            <div class="card bg-danger text-white shadow">
+                <div class="card-body text-center">
+
+                    <h5>Closed Projects</h5>
+
+                    <h1>{{ closed_projects }}</h1>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

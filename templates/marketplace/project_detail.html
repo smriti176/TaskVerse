@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Project Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- Project Details -->
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h2>{{ project.title }}</h2>
+
+            <hr>
+
+            <p>
+                <strong>Description:</strong><br>
+                {{ project.description }}
+            </p>
+
+            <p>
+                <strong>Budget:</strong>
+                ₹{{ project.budget }}
+            </p>
+
+            <p>
+                <strong>Skills Required:</strong>
+                {{ project.skills_required }}
+            </p>
+
+            <p>
+                <strong>Deadline:</strong>
+                {{ project.deadline }}
+            </p>
+
+            <p>
+                <strong>Client:</strong>
+                {{ project.client.username }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if project.status == "Open" %}
+                    <span class="badge bg-success">
+                        Open
+                    </span>
+                {% elif project.status == "Closed" %}
+                    <span class="badge bg-danger">
+                        Closed
+                    </span>
+                {% else %}    
+                    <span class="badge bg-primary">
+                      Completed
+                    </span>
+                {% endif %}
+
+            </p>
+
+            <!-- Navigation Buttons -->
+
+            <a href="{% url 'project_list' %}" class="btn btn-secondary">
+                Back
+            </a>
+
+            <!-- Apply Bid -->
+
+{% if project.status == "Open" %}
+
+<a href="{% url 'apply_bid' project.id %}"
+class="btn btn-success">
+Apply Bid
+</a>
+
+{% elif project.status == "Closed" %}
+
+<button
+class="btn btn-secondary"
+disabled>
+Project Closed
+</button>
+
+{% else %}
+
+<!-- No Apply Bid button when project is completed -->
+
+{% endif %}
+
+            <!-- Client Controls -->
+
+{% if user == project.client %}
+
+    {% if project.status == "Open" %}
+
+        <a href="{% url 'close_project' project.id %}"
+           class="btn btn-danger">
+            Close Project
+        </a>
+
+        <a href="{% url 'complete_project' project.id %}"
+           class="btn btn-primary">
+            Complete Project
+        </a>
+
+    {% elif project.status == "Closed" %}
+
+        <a href="{% url 'open_project' project.id %}"
+           class="btn btn-success">
+            Reopen Project
+        </a>
+
+        <a href="{% url 'complete_project' project.id %}"
+           class="btn btn-primary">
+            Complete Project
+        </a>
+
+    {% elif project.status == "Completed" %}
+
+        <button class="btn btn-success" disabled>
+            ✓ Project Completed
+        </button>
+
+        <a href="{% url 'leave_review' project.id %}"
+           class="btn btn-warning">
+            ⭐ Leave Review
+        </a>
+
+    {% endif %}
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+    <br>
+
+    <hr>
+
+    <h3>Submitted Bids</h3>
+
+    {% for bid in bids %}
+
+    <div class="card shadow mb-3">
+
+        <div class="card-body">
+
+            <h5><a href="{% url 'freelancer_profile_detail' bid.freelancer.freelancerprofile.id %}"
+               class="btn btn-info">
+                View Profile
+            </a></h5>
+
+            <p>
+                <strong>Bid Amount:</strong>
+                ₹{{ bid.amount }}
+            </p>
+
+            <p>
+                <strong>Delivery Days:</strong>
+                {{ bid.delivery_days }}
+            </p>
+
+            <p>
+                <strong>Proposal:</strong><br>
+                {{ bid.proposal }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if bid.status == "Accepted" %}
+
+                    <span class="badge bg-success">
+                        Accepted
+                    </span>
+
+                {% elif bid.status == "Rejected" %}
+
+                    <span class="badge bg-danger">
+                        Rejected
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-warning text-dark">
+                        Pending
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+            {% if user == project.client %}
+
+                <a href="{% url 'accept_bid' bid.id %}"
+                   class="btn btn-success">
+                    Accept
+                </a>
+
+                <a href="{% url 'reject_bid' bid.id %}"
+                   class="btn btn-danger">
+                    Reject
+                </a>
+
+            {% endif %}
+
+            <br><br>
+
+            <small class="text-muted">
+                Submitted on {{ bid.created_at }}
+            </small>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="alert alert-warning">
+        No bids yet.
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Django database and backups
+*.sqlite3
+*.db
+*.bak
+
+# Temporary recovery files
+db_report.txt
+inspect_db.py
+
+# Environment secrets
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Media
+media/
+
+# Python logs
+*.log

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Project
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="project-form-card">
+
+                <div class="project-header text-center">
+
+                    <i class="bi bi-briefcase-fill display-3"></i>
+
+                    <h2 class="mt-3">
+                        Create New Project
+                    </h2>
+
+                    <p>
+                        Post your project and receive bids from skilled freelancers.
+                    </p>
+
+                </div>
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Project Title
+                        </label>
+
+                        {{ form.title }}
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        {{ form.category }}
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        {{ form.description }}
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-4">
+
+                            <label class="form-label">
+                                Budget
+                            </label>
+
+                            {{ form.budget }}
+
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+
+                            <label class="form-label">
+                                Deadline
+                            </label>
+
+                            {{ form.deadline }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Skills Required
+                        </label>
+
+                        {{ form.skills_required }}
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        {{ form.status }}
+
+                    </div>
+
+                    <div class="d-grid">
+
+                        <button class="btn btn-lg btn-primary">
+
+                            <i class="bi bi-send-fill"></i>
+
+                            Publish Project
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

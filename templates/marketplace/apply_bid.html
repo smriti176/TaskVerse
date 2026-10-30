@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Apply Bid
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2>Apply for Project</h2>
+
+<hr>
+
+<h3>{{ project.title }}</h3>
+
+<p>{{ project.description }}</p>
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button class="btn btn-success">
+Submit Bid
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

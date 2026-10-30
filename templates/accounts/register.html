@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <!-- Register Icon -->
+
+        <div class="login-logo">
+
+            <i class="bi bi-person-plus-fill"></i>
+
+        </div>
+
+        <h2>
+
+            Create Account
+
+        </h2>
+
+        <p>
+
+            Join Freelancer Marketplace and start your freelancing journey.
+
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- Username -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Username
+
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Enter your username"
+                    required>
+
+            </div>
+
+            <!-- Email -->
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Email Address
+
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+            <!-- Password -->
+
+            <div class="mb-4">
+
+                <label class="form-label">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Create a strong password"
+                    required>
+
+            </div>
+
+            <!-- Register Button -->
+
+            <button
+                type="submit"
+                class="btn btn-success">
+
+                <i class="bi bi-person-check-fill"></i>
+
+                Register
+
+            </button>
+
+        </form>
+
+        <div class="login-divider">
+
+            Already have an account?
+
+        </div>
+
+        <div class="text-center">
+
+            <a href="{% url 'login' %}"
+               class="btn btn-outline-primary">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login Here
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Bids
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+<h2>My Submitted Bids</h2>
+
+<hr>
+
+{% for bid in bids %}
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h3>{{ bid.project.title }}</h3>
+
+<p>
+<strong>Bid Amount:</strong>
+₹{{ bid.amount }}
+</p>
+
+<p>
+<strong>Delivery Days:</strong>
+{{ bid.delivery_days }}
+</p>
+
+<p>
+<strong>Proposal:</strong><br>
+{{ bid.proposal }}
+</p>
+
+<p>
+<strong>Submitted:</strong>
+{{ bid.created_at }}
+</p>
+
+<a href="{% url 'project_detail' bid.project.id %}"
+class="btn btn-primary">
+View Project
+</a>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<h4>No bids submitted yet.</h4>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
