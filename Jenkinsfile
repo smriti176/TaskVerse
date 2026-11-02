@@ -1,6 +1,9 @@
-
 pipeline {
     agent any
+
+    options {
+        skipDefaultCheckout(true)
+    }
 
     stages {
         stage('Checkout') {
@@ -11,35 +14,25 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
-                    pip install -r requirements.txt
-                '''
+                bat 'python -m pip install -r requirements.txt'
             }
         }
 
         stage('Django System Check') {
             steps {
-                sh '''
-                    . venv/bin/activate
-                    python manage.py check
-                '''
+                bat 'python manage.py check'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh '''
-                    . venv/bin/activate
-                    python manage.py test
-                '''
+                bat 'python manage.py test'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t smriti176/taskverse:latest .'
+                bat 'docker build -t smriti176/taskverse:latest .'
             }
         }
     }
